@@ -31,10 +31,14 @@ jobs:
 
     # 3. build docker image
     - name: Build docker image
-      run: docker build -t gregory213/graphql-actions:0.0.2 .
+      run: | 
+        docker build -t gregory213/graphql-actions:0.0.2 .
+        docker build -t gregory213/graphql-actions .
 
     # 4. push docker image
     - name: Push docker image
-      run: docker image push gregory213/graphql-actions:0.0.2
+      run: |
+        docker image push gregory213/graphql-actions:0.0.2
+        docker image push gregory213/graphql-actions
     # - name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
