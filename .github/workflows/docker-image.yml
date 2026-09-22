@@ -38,7 +38,7 @@ jobs:
         echo "Inicio Docker Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin Docker login"
-        echo "new version ${NEW_VERSION}!!!
+        echo "new version ${NEW_VERSION}!!!"
 
     # - name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
