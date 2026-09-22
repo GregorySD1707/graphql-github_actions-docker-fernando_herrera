@@ -18,27 +18,27 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    # 5.
+    
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v6.0.2
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prereleases${increment}"
     
     # paso 2: logearse en docker
     - name: Docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Inicio Docker Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin Docker login"
+        echo "new version ${NEW_VERSION}!!!
 
-    # 3. build docker image
-    - name: Build docker image
-      run: | 
-        docker build -t gregory213/graphql-actions:0.0.2 .
-        docker build -t gregory213/graphql-actions .
-
-    # 4. push docker image
-    - name: Push docker image
-      run: |
-        docker image push gregory213/graphql-actions:0.0.2
-        docker image push gregory213/graphql-actions
     # - name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
