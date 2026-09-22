@@ -34,12 +34,25 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Inicio Docker Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin Docker login"
         echo "new version $NEW_VERSION !!!"
+# 3. build docker image
+    - name: Build docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: | 
+        docker build -t gregory213/graphql-actions:$NEW_VERSION .
+        docker build -t gregory213/graphql-actions .
 
+    # 4. push docker image
+    - name: Push docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker image push gregory213/graphql-actions:$NEW_VERSION
+        docker image push gregory213/graphql-actions
     # - name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
